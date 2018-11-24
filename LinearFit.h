@@ -6,7 +6,7 @@
 #include <math.h>
 #include <vector>
 #include <stdio.h>
-#include<algorithm>
+#include <algorithm>
 
 using namespace std;
 
