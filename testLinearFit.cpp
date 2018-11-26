@@ -45,10 +45,10 @@ int main() {
                                       {5,5,4,2},
                                       {-1,-2,3.4,-1}};
 
-        vector<int> p = {0,0,0,0};
-        LUP_Decomposition(a_1,p);
-        vector<vector<double>> l (a_1);
-        vector<vector<double>> u (a_1);
+        vector<int> p = {0,0,0};
+        LUP_Decomposition(a,p);
+        vector<vector<double>> l (a);
+        vector<vector<double>> u (a);
         for(int i = 0; i < l.size(); i++){
                 for(int j = 0; j < l[0].size(); j++){
                         if(i<j) l[i][j] = 0;
@@ -56,16 +56,19 @@ int main() {
                         if(i>j) u[i][j] = 0;
                 }
         }
-        //vector<double> ret =  LUP_Solve (l,u,p,{3,7,8});
-        for(double i:p) cout<<i<<"\n";
+       /* vector<double> ret =  LUP_Solve (l,u,p,{3,7,8});
+        for(double i:ret) cout<<i<<"\n";
 
-        for(auto i:a_1){
+        for(auto i:u){
                 for(auto j:i){
                         cout<<j<<"\t";
                 }
                 cout<<"\n";
-        }
-        
+        }*/
+        vector<Point> data3 = {Point(0,0),Point(1,1),Point(2,4),Point(3,9)};
+        vector<std::function<double (double)>> fs3{[](double x){return 1.0;}, [](double x){return x;},[](double x){return x*x;}};
+        vector<double> fit3 = fitFuncs(data3,fs3);
+        for(double i:fit3) cout<<i<<"\n"; 
 
         return 0;
 }

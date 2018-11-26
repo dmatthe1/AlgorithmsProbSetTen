@@ -60,20 +60,21 @@ void LUP_Decomposition(vector<vector<double>>& matrix, vector<int>& arr){
 vector<double> LUP_Solve(vector<vector<double>> l,vector<vector<double>> u,vector<int> pi,vector<double> b){
 
   int n = l.size();//size of rows of l
-  vector<double> arr_x(n); //array of size n
-  vector<double> arr_y(n);
+  vector<double> arr_x(n,0); //array of size n
+  vector<double> arr_y(n,0);
   for(int i = 0; i < n; i++){
     double sum = 0;
     for(int j = 0; j<=i-1; j++){
-      sum+=l[i][j]*arr_y[i];
+      sum+=l[i][j]*arr_y[j];
     }
+    //cout<<"sum: " <<sum<<"\n";
     arr_y[i] = b[pi[i]] - sum;
   }
 
   for(int i = n-1 ; i>=0; i--){
     double sum = 0;
     for(int j = i+1; j<n; j++){
-      sum+=u[i][j]*arr_x[i];
+      sum+=u[i][j]*arr_x[j];
     }
     arr_x[i] = (arr_y[i] - sum)/u[i][i];
   }
@@ -123,12 +124,12 @@ vector<double> fitFuncs(const vector<T> &data, const vector<F> &functions) {
                 }
         }
         vector<vector<double>> input_t = transpose(input);
-        cout<<"transpose"<<"\n";
+      //  cout<<"transpose"<<"\n";
         vector<int> p (functions.size()); 
         vector<vector<double>> matrix = mutiply(input_t,input);
-        cout<<"mutiply"<<"\n";
+      //  cout<<"mutiply"<<"\n";
         LUP_Decomposition(matrix,p);
-        cout<<"decomposition"<<"\n";
+      //  cout<<"decomposition"<<"\n";
         vector<vector<double>> l (matrix);
         vector<vector<double>> u (matrix);
         for(int i = 0; i < l.size(); i++){
@@ -138,9 +139,9 @@ vector<double> fitFuncs(const vector<T> &data, const vector<F> &functions) {
                         if(i>j) u[i][j] = 0;
                 }
         }
-        cout<<"l u p"<<"\n";
+      //  cout<<"l u p"<<"\n";
         vector<double> right = transpose(mutiply(input_t, y_value))[0];
         vector<double> ret =  LUP_Solve (l,u,p,transpose(mutiply(input_t, y_value))[0]);
-        for(double i:ret) cout<<i<<"\n";
+      //  for(double i:ret) cout<<i<<"\n";
         return ret;
 }
